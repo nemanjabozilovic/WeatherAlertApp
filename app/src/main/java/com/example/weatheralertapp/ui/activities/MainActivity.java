@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,26 +21,23 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startServiceButton, stopServiceButton;
     private CheckBox cbSunriseTime, cbSunsetTime, cbTemperatureChange, cbRain, cbStrongWind, cbSnow;
-    private TextView tvWeatherInfo;
 
-    private WeatherBroadcastReceiver weatherReceiver = new WeatherBroadcastReceiver();
+    private final WeatherBroadcastReceiver weatherReceiver = new WeatherBroadcastReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "weatherChannel",
-                    "Weather Alerts",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            channel.setDescription("This channel is used for weather alerts notifications.");
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            if (manager != null) {
-                manager.createNotificationChannel(channel);
-            }
+        NotificationChannel channel = new NotificationChannel(
+                "weatherChannel",
+                "Weather Alerts",
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        channel.setDescription("This channel is used for weather alerts notifications.");
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        if (manager != null) {
+            manager.createNotificationChannel(channel);
         }
 
         initializeUIElements();
@@ -51,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private void initializeUIElements() {
         startServiceButton = findViewById(R.id.btn_start_service);
         stopServiceButton = findViewById(R.id.btn_stop_service);
-        tvWeatherInfo = findViewById(R.id.tv_weather_info);
 
         cbSunriseTime = findViewById(R.id.cb_sunrise_time);
         cbSunsetTime = findViewById(R.id.cb_sunset_time);
